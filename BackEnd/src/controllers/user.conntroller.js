@@ -94,7 +94,7 @@ const deleteUser = async (req, res) => {
       res.status(400).json({ content: "User not found" });
     }
     await Users.destroy({ where: { id } });
-    res.status(204).json({ content: "Delete User Successfully" });
+    res.status(200).json({ content: "Delete User Successfully" });
   } catch (error) {
     res.status(404).json(console.log(error));
   }

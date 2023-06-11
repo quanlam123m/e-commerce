@@ -1,6 +1,6 @@
 const express = require("express");
 const userRouter = require("./user.routes");
-const ticketRouter = require("./ticket.routes");
+const categoriesRouter = require("./categories.routes");
 
 //url: api/v1
 const rootRouter = express.Router();
@@ -9,6 +9,6 @@ const rootRouter = express.Router();
 rootRouter.use("/users", userRouter);
 
 //ticketRouter
-rootRouter.use("/tickets", ticketRouter);
+rootRouter.use("/categories", categoriesRouter);
 
 module.exports = rootRouter;
