@@ -47,10 +47,10 @@ const createCart = async (req, res) => {
     });
     res.status(200).json({ content: "Create Cart Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 
