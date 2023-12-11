@@ -11,7 +11,7 @@ const getProducts = async (req, res) => {
     const product = await Products.findAll({
       include: [
         { model: Categories, as: "category" },
-        { model: Comments, as: "comments" },
+        { model: Comments, as: "comment" },
       ],
     });
     res.status(200).json(product);
@@ -42,33 +42,33 @@ const getProductsById = async (req, res) => {
 
 //Tạo sản phẩm mới
 const createProducts = async (req, res) => {
-  const { name, categoryID, quantity, price } = req.body;
+  const { name, categoryId, quantity, price } = req.body;
   try {
     const product = await Products.create({
       name,
-      categoryID,
+      categoryId,
       quantity,
       price,
     });
-    res.status(200).json({ content: "Create Product Successfully" }, product);
+    res.status(200).json({ content: "Create Product Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 
 //Cập nhật sản phẩm
 const updateProducts = async (req, res) => {
   const id = Number(req.params.id);
-  const { name, categoryID, quantity, price } = req.body;
+  const { name, categoryId, quantity, price } = req.body;
 
   if (!id) {
     res.status(400).json("Invalid content");
   }
 
-  const newProduct = { name, categoryID, quantity, price };
+  const newProduct = { name, categoryId, quantity, price };
 
   try {
     await Products.update(newProduct, {
@@ -76,14 +76,12 @@ const updateProducts = async (req, res) => {
         id,
       },
     });
-    res
-      .status(201)
-      .json(...newProduct, { content: "Update Product Successfully" });
+    res.status(201).json({ content: "Update Product Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error.errors);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 

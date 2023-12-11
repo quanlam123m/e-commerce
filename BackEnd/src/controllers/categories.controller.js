@@ -4,7 +4,7 @@ const { Categories, Products } = require("../models");
 const getCategories = async (req, res) => {
   try {
     const category = await Categories.findAll({
-      include: [{ model: Products, as: "products" }],
+      include: [{ model: Products, as: "product" }],
     });
     res.status(200).json(category);
   } catch (error) {
@@ -34,19 +34,20 @@ const getCategoriesById = async (req, res) => {
 
 //Tạo phân loại mới
 const createCategories = async (req, res) => {
-  const { name } = req.body;
+  const { name, description } = req.body;
   try {
     const category = await Categories.create({
       name,
+      description,
     });
     res
       .status(200, category.id)
       .json({ content: "Create Category Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 

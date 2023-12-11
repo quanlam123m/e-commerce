@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         field: "content",
       },
       productId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
         field: "productId",
       },

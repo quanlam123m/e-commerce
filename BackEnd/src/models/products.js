@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
       },
       categoryId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         field: "categoryId",
       },
       quantity: {

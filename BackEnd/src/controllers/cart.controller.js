@@ -37,11 +37,11 @@ const getCartsById = async (req, res) => {
 
 //Tạo giỏ hàng mới
 const createCart = async (req, res) => {
-  const { userID, productsID, total, status } = req.body;
+  const { userId, productsId, total, status } = req.body;
   try {
     const cart = await Carts.create({
-      userID,
-      productsID,
+      userId,
+      productsId,
       total,
       status,
     });
@@ -57,13 +57,13 @@ const createCart = async (req, res) => {
 //Cập nhật giỏ hàng
 const updateCart = async (req, res) => {
   const id = Number(req.params.id);
-  const { userID, productsID, total, status } = req.body;
+  const { userId, productsId, total, status } = req.body;
 
   if (!id) {
     res.status(400).json({ content: "Invalid content" });
   }
 
-  const newCart = { userID, productsID, total, status };
+  const newCart = { userId, productsId, total, status };
 
   try {
     await Carts.update(newCart, {
@@ -71,12 +71,12 @@ const updateCart = async (req, res) => {
         id,
       },
     });
-    res.status(201).json(...newCart, { content: "Update Cart Successfully" });
+    res.status(201).json({ content: "Update Cart Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 

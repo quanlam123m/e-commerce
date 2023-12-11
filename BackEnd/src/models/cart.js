@@ -17,17 +17,17 @@ module.exports = (sequelize) => {
   Carts.init(
     {
       userId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
         field: "userId",
       },
       productsId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
         field: "productsId",
       },
       total: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: true,
         field: "total",
       },

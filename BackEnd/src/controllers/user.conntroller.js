@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users, Carts } = require("../models");
 
 //Lấy toàn bộ thông tin của tất cả người dùng
 const getUsers = async (req, res) => {
@@ -7,7 +7,7 @@ const getUsers = async (req, res) => {
       //hiển thị tất cả thông tin người dùng trừ password
       attributes: { exclude: ["password"] },
       //lụm ra luôn departments
-      //include: [{ model: Departments, as: "department" }],
+      include: [{ model: Carts, as: "cart" }],
     });
     res.status(200).json(user);
   } catch (error) {
@@ -49,10 +49,10 @@ const createUser = async (req, res) => {
     });
     res.status(201).json({ content: "Create User Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 
@@ -73,12 +73,12 @@ const updateUser = async (req, res) => {
         id,
       },
     });
-    res.status(201).json(...newUser, { content: "Update User Successfully" });
+    res.status(201).json({ content: "Update User Successfully" });
   } catch (error) {
-    if (err.name === "SequelizeValidationError") {
-      res.status(400).json(400, err.errors);
+    if (error.name === "SequelizeValidationError") {
+      res.status(400).json(400, error);
     }
-    console.log(err);
+    console.log(error);
   }
 };
 
