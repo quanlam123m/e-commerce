@@ -4,6 +4,18 @@ module.exports = (sequelize) => {
   class Products extends Model {
     static associate(db) {
       //Khai báo các khóa có liên quan
+      this.hasMany(db.ProductConnectOrder, {
+        foreignKey: "productId",
+      });
+      this.hasMany(db.Comments, {
+        as: "comment",
+        foreignKey: "productId",
+      });
+
+      this.belongsTo(db.Categories, {
+        as: "category",
+        foreignKey: "categoryId",
+      });
     }
   }
   Products.init(
@@ -13,10 +25,10 @@ module.exports = (sequelize) => {
         allowNull: true,
         field: "name",
       },
-      categoryID: {
+      categoryId: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        field: "categoryID",
+        field: "categoryId",
       },
       quantity: {
         type: DataTypes.INTEGER,

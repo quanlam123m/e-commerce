@@ -4,6 +4,13 @@ module.exports = (sequelize) => {
   class Carts extends Model {
     static associate(db) {
       //Khai báo các khóa liên quan
+      this.belongsTo(db.Users, {
+        as: "user",
+        foreignKey: "userId",
+      });
+      this.hasMany(db.ProductConnectOrder, {
+        foreignKey: "cartId",
+      });
     }
   }
 
@@ -12,7 +19,7 @@ module.exports = (sequelize) => {
       userId: {
         type: DataTypes.STRING,
         allowNull: true,
-        field: "userID",
+        field: "userId",
       },
       productsId: {
         type: DataTypes.STRING,

@@ -5,18 +5,15 @@ const { nanoid } = require("nanoid");
 module.exports = (sequelize) => {
   class Users extends Model {
     static associate(db) {
-      //   this.belongsTo(db.Departments, {
-      //     as: "department",
-      //     foreignKey: "departmentId",
-      //   });
-      //   this.hasMany(db.Comments, {
-      //     as: "comment",
-      //     foreignKey: "userId",
-      //   });
-      //   this.hasMany(db.Posts, {
-      //     as: "post",
-      //     foreignKey: "userId",
-      //   });
+      this.hasMany(db.Carts, {
+        as: "cart",
+        foreignKey: "userId",
+      });
+
+      this.hasMany(db.Comments, {
+        as: "comment",
+        foreignKey: "userId",
+      });
     }
   }
 

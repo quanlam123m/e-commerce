@@ -73,7 +73,7 @@ const updateUser = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update User Successfully" });
+    res.status(201).json(...newUser, { content: "Update User Successfully" });
   } catch (error) {
     if (err.name === "SequelizeValidationError") {
       res.status(400).json(400, err.errors);

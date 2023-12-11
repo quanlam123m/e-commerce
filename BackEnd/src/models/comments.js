@@ -4,6 +4,15 @@ module.exports = (sequelize) => {
   class Comments extends Model {
     static associations(db) {
       //Khai báo các khóa có liên quan
+      this.belongsTo(db.Products, {
+        as: "product",
+        foreignKey: "productId",
+      });
+
+      this.belongsTo(db.Users, {
+        as: "user",
+        foreignKey: "userId",
+      });
     }
   }
   Comments.init(
@@ -13,15 +22,15 @@ module.exports = (sequelize) => {
         allowNull: true,
         field: "content",
       },
-      productID: {
+      productId: {
         type: DataTypes.STRING,
         allowNull: true,
-        field: "productID",
+        field: "productId",
       },
-      userID: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        field: "userID",
+        field: "userId",
       },
     },
     {

@@ -1,4 +1,9 @@
-const { Products, Categories, Comments } = require("../models");
+const {
+  Products,
+  Categories,
+  Comments,
+  ProductConnectOrder,
+} = require("../models");
 
 //Lấy tất cả thông tin về sản phẩm
 const getProducts = async (req, res) => {
@@ -71,7 +76,9 @@ const updateProducts = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update Product Successfully" });
+    res
+      .status(201)
+      .json(...newProduct, { content: "Update Product Successfully" });
   } catch (error) {
     if (err.name === "SequelizeValidationError") {
       res.status(400).json(400, err.errors);
@@ -83,18 +90,18 @@ const updateProducts = async (req, res) => {
 //Xóa sản phẩm
 const deleteProducts = async (req, res) => {
   const id = Number(req.params.id);
-  if (!id) {
-    res.status(400).json({ content: "Invalid request" });
-  }
-  try {
-    const user = await Products.findByPk(id);
-    if (!user) {
-      res.status(404).json({ content: "Product not found" });
-    }
-    await Products.destroy({ where: { id } });
-    res.status(200).json({ content: "Delete Product Successfully" });
-  } catch (error) {
-    res.status(404).json(console.log(error));
+  const listProConnectOrder = await ProductConnectOrder.findAll({
+    where: {
+      productId: id,
+    },
+  });
+  if (listProConnectOrder.length) {
+    res.status(400).json({ content: "Cannot delete" });
+  } else {
+    await Products.destroy({
+      where: { id },
+    });
+    res.status(200).json({ content: "Delete Products Successfully" });
   }
 };
 

@@ -71,7 +71,7 @@ const updateCart = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update Cart Successfully" });
+    res.status(201).json(...newCart, { content: "Update Cart Successfully" });
   } catch (error) {
     if (err.name === "SequelizeValidationError") {
       res.status(400).json(400, err.errors);

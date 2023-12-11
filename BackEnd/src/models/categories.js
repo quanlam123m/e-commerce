@@ -4,6 +4,10 @@ module.exports = (sequelize) => {
   class Categories extends Model {
     static associate(db) {
       //Khai báo các khóa có liên quan
+      this.hasMany(db.Products, {
+        as: "product",
+        foreignKey: "categoryId",
+      });
     }
   }
 
