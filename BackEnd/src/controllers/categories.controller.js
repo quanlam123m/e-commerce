@@ -1,16 +1,18 @@
-const { Categories } = require("../models");
+const { Categories, Products } = require("../models");
 
-//Lấy tất cả thông tin của tất cả các vé
+//Lấy tất cả thông tin của tất cả loại
 const getCategories = async (req, res) => {
   try {
-    const category = await Categories.findAll();
+    const category = await Categories.findAll({
+      include: [{ model: Products, as: "products" }],
+    });
     res.status(200).json(category);
   } catch (error) {
     console.log(error);
   }
 };
 
-//Lấy tất cả thông tin của vé theo id
+//Lấy tất cả thông tin của loại theo id
 const getCategoriesById = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -30,15 +32,15 @@ const getCategoriesById = async (req, res) => {
   }
 };
 
-//Tạo đơn hàng mới
+//Tạo phân loại mới
 const createCategories = async (req, res) => {
   const { name } = req.body;
   try {
-    const ticket = await Categories.create({
+    const category = await Categories.create({
       name,
     });
     res
-      .status(200, ticket.id)
+      .status(200, category.id)
       .json({ content: "Create Category Successfully" });
   } catch (error) {
     if (err.name === "SequelizeValidationError") {
