@@ -50,7 +50,7 @@ const createProducts = async (req, res) => {
       quantity,
       price,
     });
-    res.status(200).json({ content: "Create Product Successfully" });
+    res.status(200).json(product, { content: "Create Product Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -88,11 +88,13 @@ const updateProducts = async (req, res) => {
 //Xóa sản phẩm
 const deleteProducts = async (req, res) => {
   const id = Number(req.params.id);
+  //Check xem product có đang nằm trong đơn hàng nào hay không
   const listProConnectOrder = await ProductConnectOrder.findAll({
     where: {
       productId: id,
     },
   });
+  //Nếu Product đang trong 1 đơn hàng thì không thể xóa
   if (listProConnectOrder.length) {
     res.status(400).json({ content: "Cannot delete" });
   } else {
@@ -102,6 +104,7 @@ const deleteProducts = async (req, res) => {
     res.status(200).json({ content: "Delete Products Successfully" });
   }
 };
+
 
 module.exports = {
   getProducts,
