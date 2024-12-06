@@ -1,4 +1,4 @@
-#Lưu ý trước khi chạy chương trình:
+# Lưu ý trước khi chạy chương trình:
 - Vào folder BackEnd
 - Chạy lệnh console trong VSC: npm i
 
