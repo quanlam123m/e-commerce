@@ -24,7 +24,12 @@ const getCartsById = async (req, res) => {
   }
 
   try {
-    const cart = await Carts.findByPk(id);
+    const cart = await Carts.findByPk(id, {
+      include: [
+        { model: Products, as: "products" },
+        { model: Users, as: "users" },
+      ],
+    });
     if (cart) {
       res.status(200).json(cart);
     } else {
@@ -45,7 +50,7 @@ const createCart = async (req, res) => {
       total,
       status,
     });
-    res.status(200).json({ content: "Create Cart Successfully" });
+    res.status(200).json(cart, { content: "Create Cart Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -63,7 +68,7 @@ const updateCart = async (req, res) => {
     res.status(400).json({ content: "Invalid content" });
   }
 
-  const newCart = { userId, productsId, total, status };
+  const newCart = { userId, productsId, total};
 
   try {
     await Carts.update(newCart, {
