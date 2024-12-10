@@ -12,7 +12,7 @@ const getCategories = async (req, res) => {
   }
 };
 
-//Lấy tất cả thông tin của loại theo id
+//Lấy tất cả thông tin của loại theo id và các sản phẩm thuộc chung 1 loại đó
 const getCategoriesById = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -21,7 +21,9 @@ const getCategoriesById = async (req, res) => {
   }
 
   try {
-    const category = await Categories.findByPk(id);
+    const category = await Categories.findByPk(id, {
+      include: [{ model: Products, as: "product" }],
+    });
     if (category) {
       res.status(200).json(category);
     } else {
@@ -40,9 +42,7 @@ const createCategories = async (req, res) => {
       name,
       description,
     });
-    res
-      .status(200, category.id)
-      .json({ content: "Create Category Successfully" });
+    res.status(200).json(category, { content: "Create Category Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);

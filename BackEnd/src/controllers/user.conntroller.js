@@ -6,7 +6,7 @@ const getUsers = async (req, res) => {
     const user = await Users.findAll({
       //hiển thị tất cả thông tin người dùng trừ password
       attributes: { exclude: ["password"] },
-      //lụm ra luôn departments
+      //hiện thị thông tin mua hàng của user đã đăng ký
       include: [{ model: Carts, as: "cart" }],
     });
     res.status(200).json(user);
@@ -15,7 +15,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-//Lấy tất cả thông tin của người dùng thông qua ID của người dùng đó
+//Lấy tất cả thông tin của người dùng thông qua ID
 const getUserById = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -24,7 +24,9 @@ const getUserById = async (req, res) => {
   }
 
   try {
-    const user = await Users.findByPk(id);
+    const user = await Users.findByPk(id, {
+      include: [{ model: Carts, as: "cart" }],
+    });
     if (user) {
       res.status(200).json(user);
     } else {
@@ -47,7 +49,7 @@ const createUser = async (req, res) => {
       address,
       role,
     });
-    res.status(201).json({ content: "Create User Successfully" });
+    res.status(201).json(user, { content: "Create User Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
