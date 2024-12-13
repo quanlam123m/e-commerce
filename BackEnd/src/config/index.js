@@ -7,4 +7,5 @@ module.exports = {
   db_dialect: process.env.DB_DIALECT,
   db_host: process.env.DB_HOST,
   db_port: process.env.DB_PORT,
+  secret_key: process.env.SECRET_KEY
 };
