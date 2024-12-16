@@ -10,6 +10,8 @@
 - Mở MySQL
 - npm start để khởi động
 3. Vào folder FrontEnd:
+- Kiểm tra xem đã cài đặt VueJS chưa: vue --version (nếu chưa cài đặt thì mở CMD máy và chạy lệnh: npm install --global vue-cli
+- Chạy lệnh console trong VSC: npm i
 - npm run serve để khởi động
 
 # Đường dẫn API khi chạy chương trình:
