@@ -59,7 +59,7 @@ module.exports = (sequelize) => {
       },
       role: {
         type: DataTypes.STRING,
-        defaultValue: "Staff",
+        defaultValue: "Customer",
       },
     },
     {

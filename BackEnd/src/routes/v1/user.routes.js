@@ -1,5 +1,5 @@
 const express = require("express");
-const userController = require("../../controllers/user.conntroller");
+const userController = require("../../controllers/users.conntroller");
 const userRouter = express.Router();
 
 //Lấy tất cả thông tin người dùng
