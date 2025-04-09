@@ -1,5 +1,6 @@
 const express = require("express");
 const imagesController = require("../../controllers/images.controller");
+//const upload = require("../../middlewares/upload") -> khi muốn chuyển sang dùng cloud
 const imagesRouter = express.Router();
 
 //Lấy tất thông tin của cart
