@@ -6,9 +6,9 @@ const getImageBase64 = async (req, res) => {
         const image = await Images.findAll({
             include: [{model: Products, as: "product"}]
         })
-        req.status(200).json(image)
+        res.status(200).json(image)
     } catch (error) {
-        res.stauts(400).json({error});
+        res.status(400).json({error});
     }
 };
   // Lấy ảnh base64 theo ID
@@ -35,7 +35,7 @@ const createImageBase64 = async (req, res) => {
         data: base64Data,
         productID: productId
       });
-      res.status(200).json({content: "Create Image Successfully"},image);
+      res.status(200).json({message: "Create Image Successfully"});
     } catch (error) {
       console.error(error);
       res.status(400).json({ error });
