@@ -6,7 +6,7 @@ const getCategories = async (req, res) => {
     const category = await Categories.findAll({
       include: [{ model: Products, as: "product" }],
     });
-    res.status(200).json(category);
+    res.status(200).json({data: category});
   } catch (error) {
     console.log(error);
   }
@@ -17,7 +17,7 @@ const getCategoriesById = async (req, res) => {
   const id = Number(req.params.id);
 
   if (!id) {
-    res.status(400).json("Invalid request");
+    res.status(400).json({message: "Invalid request"});
   }
 
   try {
@@ -25,9 +25,9 @@ const getCategoriesById = async (req, res) => {
       include: [{ model: Products, as: "product" }],
     });
     if (category) {
-      res.status(200).json(category);
+      res.status(200).json({data: category});
     } else {
-      res.status(400).json({ content: "Category not found" });
+      res.status(400).json({ message: "Category not found" });
     }
   } catch (error) {
     console.log(error);
@@ -42,7 +42,7 @@ const createCategories = async (req, res) => {
       name,
       description,
     });
-    res.status(200).json(category, { content: "Create Category Successfully" });
+    res.status(200).json({data: category, message: "Create Category Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -55,15 +55,15 @@ const createCategories = async (req, res) => {
 const deleteCategories = async (req, res) => {
   const id = Number(req.params.id);
   if (!id) {
-    res.status(400).json({ content: "Invalid request" });
+    res.status(400).json({ message: "Invalid request" });
   }
   try {
     const category = await Categories.findByPk(id);
     if (!category) {
-      res.status(400).json({ content: "Category not found" });
+      res.status(400).json({ message: "Category not found" });
     }
     await Categories.destroy({ where: { id } });
-    res.status(200).json({ content: "Delete Category Successfully" });
+    res.status(200).json({ message: "Delete Category Successfully" });
   } catch (error) {
     res.status(404).json(console.log(error));
   }

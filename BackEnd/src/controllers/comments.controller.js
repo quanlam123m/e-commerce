@@ -9,7 +9,7 @@ const createComments = async (req, res) => {
       productId,
       userId,
     });
-    res.status(200).json(comment, { content: "Create Comments Successfully" });
+    res.status(200).json({data: comment, message: "Create Comments Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);

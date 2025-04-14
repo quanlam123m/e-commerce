@@ -9,7 +9,7 @@ const getCarts = async (req, res) => {
         { model: Users, as: "users" },
       ],
     });
-    res.status(200).json(cart);
+    res.status(200).json({data: cart});
   } catch (error) {
     console.log(error);
   }
@@ -20,7 +20,7 @@ const getCartsById = async (req, res) => {
   const id = Number(req.params.id);
 
   if (!id) {
-    res.status(400).json({ content: "Invalid request" });
+    res.status(400).json({ message: "Invalid request" });
   }
 
   try {
@@ -31,9 +31,9 @@ const getCartsById = async (req, res) => {
       ],
     });
     if (cart) {
-      res.status(200).json(cart);
+      res.status(200).json({data: cart});
     } else {
-      res.status(404).json({ content: "Cart not found" });
+      res.status(404).json({ message: "Cart not found" });
     }
   } catch (error) {
     console.log(error);
@@ -50,7 +50,7 @@ const createCart = async (req, res) => {
       total,
       status,
     });
-    res.status(200).json(cart, { content: "Create Cart Successfully" });
+    res.status(200).json({data: cart, message: "Create Cart Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -65,7 +65,7 @@ const updateCart = async (req, res) => {
   const { userId, productsId, total, status } = req.body;
 
   if (!id) {
-    res.status(400).json({ content: "Invalid content" });
+    res.status(400).json({ message: "Invalid content" });
   }
 
   const newCart = { userId, productsId, total};
@@ -76,7 +76,7 @@ const updateCart = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update Cart Successfully" });
+    res.status(201).json({data: newCart, message: "Update Cart Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -90,15 +90,15 @@ const deleteCart = async (req, res) => {
   const id = Number(req.params.id);
 
   if (!id) {
-    res.status(400).json({ content: "Invalid request" });
+    res.status(400).json({ message: "Invalid request" });
   }
   try {
     const cart = await Carts.findByPk(id);
     if (!cart) {
-      res.status(404).json({ content: "Cart not found" });
+      res.status(404).json({ message: "Cart not found" });
     }
     await Carts.destroy({ where: { id } });
-    res.status(200).json({ content: "Delete Cart Successfully" });
+    res.status(200).json({ message: "Delete Cart Successfully" });
   } catch (error) {
     res.status(404).json(console.log(error));
   }

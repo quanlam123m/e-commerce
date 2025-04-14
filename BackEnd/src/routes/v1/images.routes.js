@@ -3,15 +3,15 @@ const imagesController = require("../../controllers/images.controller");
 //const upload = require("../../middlewares/upload") -> khi muốn chuyển sang dùng cloud
 const imagesRouter = express.Router();
 
-//Lấy tất thông tin của cart
+//Lấy tất thông tin của image
 imagesRouter.get("/", imagesController.getImageBase64);
 //Như trên nhưng thông qua id
 imagesRouter.get("/:id", imagesController.getImageBase64ById);
-//Tạo cart mới
+//Tạo image mới
 imagesRouter.post("/", imagesController.createImageBase64);
-//Cập nhât cart
+//Cập nhât image
 imagesRouter.put("/:id", imagesController.updateImages);
-//Xóa cart
+//Xóa image
 imagesRouter.delete("/:id", imagesController.deleteImages);
 
 module.exports = imagesRouter;

@@ -9,7 +9,7 @@ const getUsers = async (req, res) => {
       //hiện thị thông tin mua hàng của user đã đăng ký
       include: [{ model: Carts, as: "cart" }],
     });
-    res.status(200).json(user);
+    res.status(200).json({data: user});
   } catch (error) {
     console.log(error);
   }
@@ -20,7 +20,7 @@ const getUserById = async (req, res) => {
   const id = Number(req.params.id);
 
   if (!id) {
-    res.status(400).json("Invalid request");
+    res.status(400).json({message: "Invalid request"});
   }
 
   try {
@@ -28,9 +28,9 @@ const getUserById = async (req, res) => {
       include: [{ model: Carts, as: "cart" }],
     });
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json({data: user});
     } else {
-      res.status(400).json({ content: "User not found" });
+      res.status(400).json({ message: "User not found" });
     }
   } catch (error) {
     console.log(error);
@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
       address,
       role,
     });
-    res.status(201).json(user, { content: "Create User Successfully" });
+    res.status(201).json({data: user, message: "Create User Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -64,7 +64,7 @@ const updateUser = async (req, res) => {
   const { name, email, address, role } = req.body;
 
   if (!id) {
-    res.status(400).json("Invalid content");
+    res.status(400).json({message: "Invalid content"});
   }
 
   const newUser = { name, email, address, role };
@@ -75,7 +75,7 @@ const updateUser = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update User Successfully" });
+    res.status(201).json({ data: newUser, message: "Update User Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -88,15 +88,15 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const id = Number(req.params.id);
   if (!id) {
-    res.status(400).json({ content: "Invalid request" });
+    res.status(400).json({ message: "Invalid request" });
   }
   try {
     const user = await Users.findByPk(id);
     if (!user) {
-      res.status(400).json({ content: "User not found" });
+      res.status(400).json({ message: "User not found" });
     }
     await Users.destroy({ where: { id } });
-    res.status(200).json({ content: "Delete User Successfully" });
+    res.status(200).json({ message: "Delete User Successfully" });
   } catch (error) {
     res.status(404).json(error);
   }

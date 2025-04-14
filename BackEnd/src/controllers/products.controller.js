@@ -14,7 +14,7 @@ const getProducts = async (req, res) => {
         { model: Comments, as: "comment" },
       ],
     });
-    res.status(200).json(product);
+    res.status(200).json({data: product});
   } catch (error) {
     console.log(error);
   }
@@ -25,15 +25,15 @@ const getProductsById = async (req, res) => {
   const id = Number(req.params.id);
 
   if (!id) {
-    res.status(400).json("Invalid request");
+    res.status(400).json({message: "Invalid request"});
   }
 
   try {
     const product = await Products.findByPk(id);
     if (product) {
-      res.status(200).json(product);
+      res.status(200).json({data: product});
     } else {
-      res.status(404).json({ content: "Product not found" });
+      res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
     console.log(error);
@@ -50,7 +50,7 @@ const createProducts = async (req, res) => {
       quantity,
       price,
     });
-    res.status(200).json(product, { content: "Create Product Successfully" });
+    res.status(200).json({data: product, message: "Create Product Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error);
@@ -65,7 +65,7 @@ const updateProducts = async (req, res) => {
   const { name, categoryId, quantity, price } = req.body;
 
   if (!id) {
-    res.status(400).json("Invalid content");
+    res.status(400).json({message: "Invalid content"});
   }
 
   const newProduct = { name, categoryId, quantity, price };
@@ -76,7 +76,7 @@ const updateProducts = async (req, res) => {
         id,
       },
     });
-    res.status(201).json({ content: "Update Product Successfully" });
+    res.status(201).json({data: newProduct, message: "Update Product Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error.errors);
@@ -96,12 +96,12 @@ const deleteProducts = async (req, res) => {
   });
   //Nếu Product đang trong 1 đơn hàng thì không thể xóa
   if (listProConnectOrder.length) {
-    res.status(400).json({ content: "Cannot delete" });
+    res.status(400).json({ message: "Cannot delete" });
   } else {
     await Products.destroy({
       where: { id },
     });
-    res.status(200).json({ content: "Delete Products Successfully" });
+    res.status(200).json({ message: "Delete Products Successfully" });
   }
 };
 
