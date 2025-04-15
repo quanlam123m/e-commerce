@@ -8,7 +8,7 @@ const getCategories = async (req, res) => {
     });
     res.status(200).json({data: category});
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -30,7 +30,7 @@ const getCategoriesById = async (req, res) => {
       res.status(400).json({ message: "Category not found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -45,9 +45,9 @@ const createCategories = async (req, res) => {
     res.status(200).json({data: category, message: "Create Category Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -65,7 +65,7 @@ const deleteCategories = async (req, res) => {
     await Categories.destroy({ where: { id } });
     res.status(200).json({ message: "Delete Category Successfully" });
   } catch (error) {
-    res.status(404).json(console.log(error));
+    res.status(404).json({data: error});
   }
 };
 

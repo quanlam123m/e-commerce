@@ -1,12 +1,15 @@
-const { Images, Products } = require('../models');
+const { Images, Products, Users } = require('../models');
 
 // Lấy ảnh base64
 const getImageBase64 = async (req, res) => {
     try {
         const image = await Images.findAll({
-            include: [{model: Products, as: "product"}]
+            include: [
+              {model: Products, as: "product"},
+              {model: Users, as: "user"}
+            ]
         })
-        res.status(200).json(image)
+        res.status(200).json({data: image})
     } catch (error) {
         res.status(400).json({error});
     }
@@ -21,7 +24,7 @@ const getImageBase64ById = async (req, res) => {
   
       res.status(200).json({data: image});
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(400).json({data: error});
     }
 };
 
@@ -38,7 +41,7 @@ const createImageBase64 = async (req, res) => {
       res.status(200).json({data: image, content: "Create Image Successfully"});
     } catch (error) {
       console.error(error);
-      res.status(400).json({ error });
+      res.status(400).json({data: error});
     }
 };
 
@@ -62,9 +65,9 @@ const updateImages = async (req, res) => {
     res.status(201).json({data: newImage, message: "Update Images Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error.errors);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -82,7 +85,7 @@ const deleteImages = async (req, res) => {
     await Images.destroy({ where: { id } });
     res.status(200).json({ message: "Delete Image Successfully" });
   } catch (error) {
-    res.status(404).json(error);
+    res.status(404).json({data: error});
   }
 };
 

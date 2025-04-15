@@ -16,7 +16,7 @@ const getProducts = async (req, res) => {
     });
     res.status(200).json({data: product});
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -36,7 +36,7 @@ const getProductsById = async (req, res) => {
       res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -53,9 +53,9 @@ const createProducts = async (req, res) => {
     res.status(200).json({data: product, message: "Create Product Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -81,7 +81,7 @@ const updateProducts = async (req, res) => {
     if (error.name === "SequelizeValidationError") {
       res.status(400).json(400, error.errors);
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 

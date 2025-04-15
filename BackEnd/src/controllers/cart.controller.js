@@ -11,7 +11,7 @@ const getCarts = async (req, res) => {
     });
     res.status(200).json({data: cart});
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -36,7 +36,7 @@ const getCartsById = async (req, res) => {
       res.status(404).json({ message: "Cart not found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -53,9 +53,9 @@ const createCart = async (req, res) => {
     res.status(200).json({data: cart, message: "Create Cart Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -79,9 +79,9 @@ const updateCart = async (req, res) => {
     res.status(201).json({data: newCart, message: "Update Cart Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -100,7 +100,7 @@ const deleteCart = async (req, res) => {
     await Carts.destroy({ where: { id } });
     res.status(200).json({ message: "Delete Cart Successfully" });
   } catch (error) {
-    res.status(404).json(console.log(error));
+    res.status(404).json({data: error});
   }
 };
 

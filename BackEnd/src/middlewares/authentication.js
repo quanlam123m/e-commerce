@@ -20,7 +20,7 @@ const authenticate = async (req, res, next) => {
       req.header("Authorization")
     );
     if (error) {
-      res.status(401).json(error);
+      res.status(401).json({data: error});
     }
     const payload = jwt.verify(token);
 

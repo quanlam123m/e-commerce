@@ -11,7 +11,7 @@ const getUsers = async (req, res) => {
     });
     res.status(200).json({data: user});
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -33,7 +33,7 @@ const getUserById = async (req, res) => {
       res.status(400).json({ message: "User not found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -52,9 +52,9 @@ const createUser = async (req, res) => {
     res.status(201).json({data: user, message: "Create User Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -78,9 +78,9 @@ const updateUser = async (req, res) => {
     res.status(201).json({ data: newUser, message: "Update User Successfully" });
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      res.status(400).json(400, error);
+      res.status(400).json({data: error});
     }
-    console.log(error);
+    res.status(404).json({data: error});
   }
 };
 
@@ -98,7 +98,7 @@ const deleteUser = async (req, res) => {
     await Users.destroy({ where: { id } });
     res.status(200).json({ message: "Delete User Successfully" });
   } catch (error) {
-    res.status(404).json(error);
+    res.status(404).json({data: error});
   }
 };
 
